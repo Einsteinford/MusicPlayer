@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/drawer_header_background"
+                android:gravity="center">
+
+    <ImageView
+        android:id="@+id/widget_song_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:contentDescription="@string/background_image_str"
+        android:src="@drawable/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/tv_widget_song_name"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/currently_playing_song"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/widget_song_icon"
+        android:layout_toEndOf="@+id/widget_song_icon"/>
+
+    <TextView
+        android:id="@+id/tv_widget_song_singer"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/currently_playing_artist"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_below="@+id/tv_widget_song_name"
+        android:layout_toRightOf="@+id/widget_song_icon"
+        android:layout_toEndOf="@+id/widget_song_icon"/>
+
+    <ImageButton
+        android:id="@+id/btn_widget_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#00000000"
+        android:contentDescription="@string/now_playing"
+        android:src="@drawable/uamp_ic_pause_white_48dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/tv_widget_song_name"
+        android:layout_toEndOf="@+id/tv_widget_song_name"/>
+
+
+</RelativeLayout>

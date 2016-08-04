@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+    android:background="@color/drawer_header_background"
+    android:gravity="center">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/custom_song_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:contentDescription="@string/background_image_str"
+        android:src="@drawable/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/tv_custom_song_name"
+        android:layout_width="148dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/custom_song_icon"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/currently_playing_song"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <TextView
+        android:id="@+id/tv_custom_song_singer"
+        android:layout_width="138dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_custom_song_name"
+        android:layout_alignStart="@+id/tv_custom_song_name"
+        android:layout_below="@+id/tv_custom_song_name"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/currently_playing_artist"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+    <ImageButton
+        android:id="@+id/btn_custom_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:contentDescription="@string/now_playing"
+        android:src="@drawable/uamp_ic_pause_white_48dp"
+        android:layout_gravity="center_vertical"
+        android:layout_alignTop="@+id/tv_custom_song_name"
+        android:layout_toRightOf="@+id/tv_custom_song_singer"
+        android:layout_toEndOf="@+id/tv_custom_song_singer"/>
+
+</RelativeLayout>
+
+
+</LinearLayout>
