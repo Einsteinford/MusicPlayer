@@ -29,10 +29,8 @@ public class MusicService extends Service {
 
     private static final String ACTION_FOO = "comeinsteinford.github.musicplayer.action.FOO";
     public static final String ACTION_BOO = "comeinsteinford.github.musicplayer.action.BOO";
-    public static final String ACTION_GOO = "comeinsteinford.github.musicplayer.action.BOO";
 
     private static final String EXTRA_PARAM1 = "comeinsteinford.github.musicplayer.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "comeinsteinford.github.musicplayer.extra.PARAM2";
 
 
     public static final String UPDATE_MUSIC_NAME = "comeinsteinford.github.musicplayer.extra.UPDATE_MUSIC_NAME";
@@ -57,15 +55,6 @@ public class MusicService extends Service {
     public MusicService() {
         super();
     }
-
-//    private Handler mHandler = new Handler(){
-//        @Override
-//        public void handleMessage(Message msg) {
-//            if (msg.what == 0x123){
-//
-//            }
-//        }
-//    };
 
     @Override
     public void onCreate() {
@@ -179,14 +168,10 @@ public class MusicService extends Service {
     private void startNewMusic(String musicFileName, int position) {
         Flag = true;
         try {
-            Log.d(TAG, "before reset");
             mMediaPlayer.reset();
-            Log.d(TAG, "after reset");
             mMusicTitleOld = musicFileName;
-            Log.d(TAG, "before setDataSource");
             AssetFileDescriptor afd = am.openFd("music/" + musicFileName);
             mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            Log.d(TAG, "after setDataSource to prepare");
             mMediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -278,7 +263,6 @@ public class MusicService extends Service {
         public int getProgress() {
             if (mMediaPlayer.getDuration() != 0) {
                 progress = (int) (mMediaPlayer.getCurrentPosition() * 1000 / mMediaPlayer.getDuration());
-//                progress = mMediaPlayer.getDuration();
             }
             //听说progressBar最大值10000,又听说不要设置成满
             return progress;
@@ -312,13 +296,17 @@ public class MusicService extends Service {
         public String getMusicArtist() {
             return mMusicArtist;
         }
+
         public String getTime(){
             if (mMediaPlayer.isPlaying()){
                 return timeParse(mMediaPlayer.getDuration());
             }else {
                 return "00:00";
             }
+        }
 
+        public String getCurrentTime() {
+            return timeParse(mMediaPlayer.getCurrentPosition());
         }
 
         private void next() {       //转换为position

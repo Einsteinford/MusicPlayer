@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -43,19 +44,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean isPlaying = true;
 
     public static final String UPDATE_ICON = "comeinsteinford.github.musicplayer.UPDATA_NAME_AND_ARTIST";
-    public static final String HANDLER = "comeinsteinford.github.musicplayer.HANDLER";
 
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mMusicBinder = (MusicService.MusicBinder) service;
-            //TODO
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
         }
     };
 
@@ -67,30 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        update = new AsyncTask<Void, Integer, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                Log.i(TAG, "doInBackground: DOINGGGGGGGGGGG");
-                try {
-                    Thread.sleep(1000);
-                    if (mMusicBinder.MusicIsPlaying()){
-                        publishProgress(mMusicBinder.getProgress());
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Log.i(TAG, "doInBackground: ENDDDDDDDDDDDD");
-                return null;
-            }
-
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                if (isPlaying) {
-                    mTimelineSeekBar.setProgress(values[0]);
-                }
-            }
-        };
 
         FragmentMainListView fragmentMainListView =
                 (FragmentMainListView) getFragmentManager().findFragmentById(R.id.fragment_main_list_view);
@@ -145,9 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mMusicBinder.seekTo(seekBar.getProgress());
                     handleAsyncTask();
                 }
-//                else {
-//                    seekBar.setProgress(0);
-//                }
                 isPlaying = true;
             }
         });
@@ -178,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case 4:
                         setPauseMusic();    //模拟点击主界面上的播放按钮
-//                        handleAsyncTask();
                         break;
                     case 8:
                         handleAsyncTask();//产生新歌
@@ -203,11 +173,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setMusicPosition(int position) {
         //点击ListView时触发此处！开启音乐服务器
-        if (update.getStatus() == AsyncTask.Status.PENDING) {
-            update.execute();//打开进度条的异步处理线程
-        }
-        Log.i(TAG, "setMusicPosition: " + update.getStatus());
         mMusicBinder.startMusicAction(MainActivity.this, position);
+        if (update != null) {
+            if (update.getStatus() == AsyncTask.Status.PENDING) {
+                update.execute();//打开进度条的异步处理线程
+            }
+        }
     }
 
     public void setNextMusic() { //开启音乐服务器
@@ -241,63 +212,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
-    public static String getTimeFromInt(int time) {
-        if (time <= 0) {
-            return "0:00";
-        }
-        int secondnd = (time / 1000) / 60;
-        int million = (time / 1000) % 60;
-        String f = String.valueOf(secondnd);
-        String m = million >= 10 ? String.valueOf(million) : "0" + String.valueOf(million);
-        return f + ":" + m;
-    }
-
     public void setMusicName(String name) {
         mMusicPlayingTitle.setText(name);
     }
 
     public void handleAsyncTask() {
-        Log.i(TAG, "handleAsyncTask: " + update.getStatus());
-        if (update.getStatus() == AsyncTask.Status.PENDING) {
-
-            //TODO应该有个回调函数，在音乐开始播放后才运行这条语句
-            update.execute();//打开进度条的异步处理线程
-        } else if (update.getStatus() == AsyncTask.Status.FINISHED) {
-            Log.i(TAG, "handleAsyncTask: NEWWWWWWWWWWWWWWWWWWWWWWWWWW");
-            update = new AsyncTask<Void, Integer, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    Log.i(TAG, "doInBackground: DOINGGGGGGGGGGG");
-                    while (mMusicBinder.CanDo()) {
-                        try {
-                            Thread.sleep(1000);
-                            if (mMusicBinder.MusicIsPlaying()){
-                                publishProgress(mMusicBinder.getProgress());
-                            }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Log.i(TAG, "doInBackground: ENDDDDDDDDDDDD");
-                    return null;
-                }
-
-                @Override
-                protected void onProgressUpdate(Integer... values) {
-                    if (isPlaying) {
-                        mTimelineSeekBar.setProgress(values[0]);
-                    }
-                }
-            }.execute();
+        if (update != null) {
+            if (update.getStatus() == AsyncTask.Status.PENDING) {
+                //TODO应该有个回调函数，在音乐开始播放后才运行这条语句
+                update.execute();//打开进度条的异步处理线程
+            } else if (update.getStatus() == AsyncTask.Status.FINISHED) {
+                Log.i(TAG, "handleAsyncTask: NEW");
+                update = InitAsyncTask().execute();
+            }
+        } else {
+            Log.i(TAG, "handleAsyncTask: FIRST");
+            update = InitAsyncTask().execute();
         }
+    }
+
+    @NonNull
+    private AsyncTask<Void, Integer, Void> InitAsyncTask() {
+        return new AsyncTask<Void, Integer, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Log.i(TAG, "doInBackground: DOING");
+                while (mMusicBinder.CanDo()) {
+                    try {
+                        Thread.sleep(1000);
+                        if (mMusicBinder.MusicIsPlaying()) {
+                            publishProgress(mMusicBinder.getProgress());
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.i(TAG, "doInBackground: END");
+                return null;
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                if (isPlaying) {
+                    mTimelineSeekBar.setProgress(values[0]);
+                }
+            }
+        };
     }
 
     @Override
     public void onClick(View view) {
-        if (update.getStatus() == AsyncTask.Status.PENDING) {
-            update.execute();//打开进度条的异步处理线程
+        if (update != null) {
+            if (update.getStatus() == AsyncTask.Status.PENDING) {
+                update.execute();//打开进度条的异步处理线程
+            }
         }
-//                Log.i(TAG, "onClick: " + mMusicBinder.getProgress()+"‰");
         switch (view.getId()) {
             case R.id.play_next:
                 setNextMusic();

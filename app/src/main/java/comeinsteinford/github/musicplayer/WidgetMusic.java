@@ -13,16 +13,7 @@ import android.widget.RemoteViews;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/**
- * Implementation of App Widget functionality.
- */
 public class WidgetMusic extends AppWidgetProvider {
-
-    public static final String WIDGET_BUTTON_ACTION = "WIDGET_BUTTON_ACTION";
-//    private ArrayList<Parcelable> mMusicList;
-//    private ArrayList<String> mNamelist;
-//    private ArrayList<String> mSingerlist;
-
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -72,7 +63,6 @@ public class WidgetMusic extends AppWidgetProvider {
     }
 
     private RemoteViews getWidgetAttribute(Context context, boolean b) {
-//        Notification.Builder mBuilder = new Notification.Builder(musicService);
         RemoteViews mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_music);
 
         mRemoteViews.setImageViewResource(R.id.widget_song_icon, R.drawable.ic_launcher);

@@ -63,23 +63,19 @@ public class FragmentMainListView extends Fragment implements AdapterView.OnItem
         for (String str : mFileNames) {
             switch (str) {
                 case "desperado.mp3":
-                    Log.i(TAG, "initMusicList: 1");
                     mList.add(new ItemMusicList("Desperado", "藤田惠美", R.drawable.ic_launcher,"desperado.mp3"));
                     break;
                 case "imagine.mp3":
                     mList.add(new ItemMusicList("Imagine", "John Lennon", R.drawable.ic_launcher,"imagine.mp3"));
-                    Log.i(TAG, "initMusicList: 2");
                     break;
                 case "photograph.mp3":
                     mList.add(new ItemMusicList("Photograph", "Ed Sheeran", R.drawable.ic_launcher,"photograph.mp3"));
-                    Log.i(TAG, "initMusicList: 3");
                     break;
                 case "remember.mp3":
                     mList.add(new ItemMusicList("记得", "萧敬腾", R.drawable.ic_launcher,"remember.mp3"));
-                    Log.i(TAG, "initMusicList: 4");
                     break;
             }
-            Log.i(TAG, "initMusicList: for");
+            Log.i(TAG, "initMusicList: Done");
         }
     }
 
