@@ -39,5 +39,6 @@
     <string name="MusicName">Desperado</string>
 
     <string name="music_notification_title_template">Music: %1$s</string>
+    <string name="_00_00">00:00</string>
 
 </resources>

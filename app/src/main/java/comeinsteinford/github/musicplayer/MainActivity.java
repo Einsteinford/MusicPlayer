@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mMusicPlayingArtist;
     private TextView mMusicWidgetArtist;
     private TextView mTimelineAll;
+    private TextView mTimelineNow;
 
     private SeekBar mTimelineSeekBar;
 
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mMusicWidgetArtist = (TextView) findViewById(R.id.tv_widget_song_singer);
         mTimelineSeekBar = (SeekBar) findViewById(R.id.timeline_seek_bar);
         mTimelineAll = (TextView) findViewById(R.id.timeline_all);
+        mTimelineNow = (TextView) findViewById(R.id.timeline_now);
 
         mPlayNext.setOnClickListener(this);
         mPlayPrevious.setOnClickListener(this);
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         setPauseMusic();    //模拟点击主界面上的播放按钮
                         break;
                     case 8:
+                        mTimelineSeekBar.setMax(mMusicBinder.getDuration());
                         handleAsyncTask();//产生新歌
                         break;
                     default:
@@ -241,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         Thread.sleep(1000);
                         if (mMusicBinder.MusicIsPlaying()) {
-                            publishProgress(mMusicBinder.getProgress());
+                            publishProgress(mMusicBinder.getCurrentPosition());
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -255,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             protected void onProgressUpdate(Integer... values) {
                 if (isPlaying) {
                     mTimelineSeekBar.setProgress(values[0]);
+                    mTimelineNow.setText(MusicService.timeParse(values[0]));
                 }
             }
         };

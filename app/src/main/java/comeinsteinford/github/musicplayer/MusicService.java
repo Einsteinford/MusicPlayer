@@ -285,7 +285,7 @@ public class MusicService extends Service {
         }
         public void seekTo(int progress){
             if (mMediaPlayer!=null){
-                mMediaPlayer.seekTo(progress * mMediaPlayer.getDuration() / 999);
+                mMediaPlayer.seekTo(progress);
             }
         }
 

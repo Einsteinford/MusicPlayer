@@ -27,8 +27,8 @@
             android:id="@+id/timeline_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
+            android:paddingLeft="20dp"
+            android:text="@string/_00_00"
             />
 
         <SeekBar
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="20dp"
-            android:text="11:11"/>
+            android:text="@string/_00_00"/>
     </LinearLayout>
 
     <LinearLayout
