@@ -12,7 +12,7 @@
 
 静态展现
 
-![播放时](http://upload-images.jianshu.io/upload_images/2527601-d9455c9d99bd5441.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![播放时](https://github.com/Einsteinford/MusicPlayer/raw/master/IMG/MusicPlayer01.png)
 动态展现
 
-![动态播放时](http://upload-images.jianshu.io/upload_images/2527601-f26f407e8547dc39.gif?imageMogr2/auto-orient/strip)
+![动态播放时](https://github.com/Einsteinford/MusicPlayer/raw/master/IMG/MusicPlayer02.gif)
